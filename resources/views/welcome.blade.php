@@ -22,7 +22,9 @@
             <div class="container">
                 <a class="navbar-brand" href="#">
                     <img src="https://res.cloudinary.com/demo/image/upload/v1629824638/sample.jpg" alt="Logo" class="img-fluid">
+                
                 </a>
+
                 
                 
                 
@@ -41,7 +43,57 @@
             </div>
         </nav>
     </header>
-    lo
+    <form id="uploadForm">
+  <input type="file" name="file" id="fileInput" required />
+  <button type="submit">Upload</button>
+</form>
+
+<div id="statusMessage"></div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function (event) {
+  event.preventDefault();  // Prevent the default form submission
+
+  // Get the file input element and the selected file
+  const fileInput = document.getElementById('fileInput');
+  const file = fileInput.files[0];
+
+  // Ensure a file is selected before proceeding
+  if (!file) {
+    document.getElementById('statusMessage').innerText = 'Please select a file first!';
+    return;
+  }
+
+  // Update UI to show that the file is being uploaded
+  document.getElementById('statusMessage').innerText = 'Uploading...';
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('categorization', 'google_tagging:en:fr:es');
+  formData.append('auto_tagging', '0.6');
+  formData.append('timestamp', '173719931');
+  formData.append('api_key', '436464676');
+  formData.append('signature', 'a781d61f86a6f818af');
+
+  fetch('https://api.cloudinary.com/v1_1/demo/image/upload', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Handle success
+    document.getElementById('statusMessage').innerText = 'Upload successful!';
+    console.log(data);  // You can handle the response here, e.g., show the image URL
+  })
+  .catch(error => {
+    // Handle errors
+    document.getElementById('statusMessage').innerText = 'Upload failed! Please try again.';
+    console.error('Error:', error);
+  });
+});
+
+    </script>
+    
     
     
     <section id="home" class="hero d-flex align-items-center">
@@ -53,8 +105,8 @@
                 <a href="#"><i class="fab fa-slack mx-2"></i></a>
                 <a href="#"><i class="fab fa-instagram mx-2"></i></a>
             </div>
-            <h1>I am Jonathan Doe</h1>
-            <p>Creative Person</p>
+            <h1>We Are</h1>
+            <p>Stack Developer</p>
             <div class="scroll-down mt-4">
                 <a href="#services"><i class="fas fa-chevron-down"></i></a>
             </div>
